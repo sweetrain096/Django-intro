@@ -1,7 +1,9 @@
 # Django
+
 ## 0. 구조 확인하기
 
 ![photo_2019-02-11_12-10-57](https://github.com/sweetrain096/Django-intro/blob/master/img/photo_2019-02-11_12-10-57.jpg?raw=true)
+
 
 
 ## 1. 시작하기
@@ -252,9 +254,51 @@ out :
    <h1> {{dinner}} </h1>
    ```
 
+4. base 설정
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="ko">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+       <title>{% block title %}{% endblock %}</title>
+   </head>
+   <body>
+       <h1> Django 실습</h1>
+       <hr>
+       {% block body %}
+       {% endblock %}
+   </body>
+   </html>
+   ```
+
    
 
+## 4. Variable Routing
 
+1. url 설정
+
+   ```python
+   path('home/you/<name>', views.you),
+   path('hone/cube/<int:num>', views, cube),
+   ```
+
+2. view 파일 설정
+
+   ```python
+   def you(request, name):
+       return render(request, 'you.html', {'name' : name})
+   ```
+
+3. template 설정
+
+   ```django
+   <h1> {{ name }}, 안녕!! </h1>
+   ```
+
+   
 
 
 
