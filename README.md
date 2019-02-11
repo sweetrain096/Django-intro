@@ -2,7 +2,7 @@
 
 ## 0. 구조 확인하기
 
-![photo_2019-02-11_12-10-57](https://github.com/sweetrain096/Django-intro/blob/master/img/photo_2019-02-11_12-10-57.jpg?raw=true)
+![photo_2019-02-11_12-10-57](img/photo_2019-02-11_12-10-57.jpg)
 
 
 
