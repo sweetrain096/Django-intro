@@ -1,5 +1,6 @@
 import random
 from django.shortcuts import render, HttpResponse
+secret_key="1q2w3e4r"
 
 # Create your views here.
 def index(request):
@@ -35,3 +36,11 @@ def pong(request):
     print(request.GET)
     msg = request.GET.get('message')
     return render(request, 'pong.html', {'msg' : msg})
+    
+def user_new(request):
+    return render(request, 'user_new.html')
+    
+def user_read(request):
+    user_id = request.POST.get("user_id")
+    user_password = request.POST.get("user_password")
+    return render(request, 'user_read.html', {'user_id' : user_id, 'user_password' : user_password})

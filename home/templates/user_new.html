@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+    <form action="/home/user_read/" method="POST">
+        {% csrf_token %}
+        id : <input type="text" name="user_id"> <br>
+        password : <input type="password" name="user_password"> <br>
+        <input type="submit" value="제출">
+    </form>
+{% endblock %}
