@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# 프로젝트 디렉토리
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,8 +25,10 @@ SECRET_KEY = 'u8kfd3g=fs3cba3u9dsc(#i=w)v2f4)-=6mzrh&k9djckd52*g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# true기 때문에 처음 로켓화면 뜬 것.
 
 ALLOWED_HOSTS = ['*']
+# 호스트 열어준것
 
 
 # Application definition
@@ -37,7 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
 ]
+# 하나하나의 앱들, 외부 라이브러리 추가.
+# 맨 마지막에 붙어도 ','를 붙이기(트레일링)
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+# 장고가 요청하기 위해 만들어놓은 코드
 
 ROOT_URLCONF = 'django_intro.urls'
 
@@ -66,8 +75,12 @@ TEMPLATES = [
         },
     },
 ]
+# 일부만 수정. 장고가 구동되기 위해 만들어진 설정파일
+
+
 
 WSGI_APPLICATION = 'django_intro.wsgi.application'
+# 배포시 사용.
 
 
 # Database
@@ -79,6 +92,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# db 설정 가능
 
 
 # Password validation
@@ -103,11 +117,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
+# 언어
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
+# 시간을 서울 시간으로
 
 USE_I18N = True
+# 한국어 바꿀 때 가능하게 만들어진다.
 
 USE_L10N = True
 
