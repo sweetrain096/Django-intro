@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+
 ]
 # 하나하나의 앱들, 외부 라이브러리 추가.
 # 맨 마지막에 붙어도 ','를 붙이기(트레일링)
