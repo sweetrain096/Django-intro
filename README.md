@@ -1,4 +1,8 @@
 # Django
+## 0. 구조 확인하기
+
+![photo_2019-02-11_12-10-57](C:\Users\student\Desktop\rain\rain-s_TIL\img\photo_2019-02-11_12-10-57.jpg)
+
 
 ## 1. 시작하기
 
