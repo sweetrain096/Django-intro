@@ -1,4 +1,6 @@
-# Django
+# [Django](https://docs.djangoproject.com/ko/2.1/intro/tutorial01/)
+
+- [djano template language](https://docs.djangoproject.com/en/1.7/topics/templates/)
 
 ## 0. 구조 확인하기
 
@@ -25,6 +27,12 @@ pip install django
    ​	프로젝트 시작하겠다는 뜻
 
    ​	하게 되면 프로젝트 이름으로 파일 생성
+
+   ```bash
+   django-admin startapp home(app 이름)
+   ```
+
+   
 
    ```
    django_intro
@@ -77,7 +85,7 @@ pip install django
 
    앞으로 모든 장고 명령어는 프로젝트를 만들때를 제외하고 `python manage.py`를 활용한다. 따라서, 명령어가 안 될때는 반드시 `pwd`와 `ls`를 통해 현재 bash(터미널) 위치를 확인하자
 
-3. 
+   
 
 
 
@@ -370,6 +378,374 @@ out :
      - form을 통해 POST 요청을 보낸다는 것은 데이터베이스에 반영되는 경우가 대부분인데, 해당 요청을 우리가 만든 정해진 form에서 보내는지 검증하는 것.
      - 실제로 input type hidden으로 특정한 hash 값이 담겨 있는 것을 볼 수 있다.
      - `settings.py`에 `MIDDLEWARE` 설정에 보면 csrf  관련된 내용이 설정된 것을 볼 수 있다.
+
+
+
+## 6. dictionary 접근
+
+> views.py에서 만든 딕셔너리에 접근하기 위해 인스턴스 변수(?) 처럼 사용할 수 있다~
+
+1. 요청 url 설정
+
+   ```python
+   from django.contrib import admin
+   from django.urls import path
+   from rain import views
+   
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       path('info/', views.info),
+       path('student/<student>', views.student),
+   ]
+   ```
+
+2. view 설정
+
+   ```python
+   from django.shortcuts import render
+   
+   students = {"박길동" : 28, "홍길동" : 30, "김길동" : 22}
+   # Create your views here.
+   def info(request):
+       teacher = '갓탁희... 그저 빛....'
+       return render(request, 'info.html', {'students' : students, 'teacher' : teacher})
+       
+   def student(request, student):
+       # age = students[student]
+       age = students.get(student, 'unknown')
+       # 아래가 중요!!!!!!!!!!!!
+       student1 = {'name' : 'rain', 'age' : 24, 'nickname' : 'sweetrain'}
+       return render(request, 'student.html', {'student' : student, 'age' : age,'student1' : student1})
+   ```
+
+3. template 설정
+
+   ```django
+   {% if age == 'unknown' %}
+       <h1> 등록되지 않은 학생입니다. </h1>
+   {% else %}
+       <h1>이름 : {{student}}</h1>
+       <h2>나이 : {{age}}</h2>
+   {% endif %}
+   <h3>student1</h3>
+   <h4>{{ student1.name }}</h4>
+   <h4>{{ student1.age }}</h4>
+   <h4>{{ student1.nickname }}</h4>
+   ```
+
+   ![1549932296403](img/1549932296403.png)
+
+
+
+## 7. Django 문법
+
+- views.py
+
+  ```python
+  def template_example(request):
+      my_dict = {'name' : 'han', 'nickname' : 'sweetrain', 'age' : 24}
+      my_list = ['짜장면', '짬뽕', '탕수육', '양장피', '초밥']
+      my_sentence = 'Life is short, you need python!'
+      messages = ['apple', 'banana', 'cucumber', 'mango']
+      now = datetime.datetime.now()
+      empty_list = []
+      return render(request, 'template_example.html', {'my_dict' : my_dict, 
+          'my_list' : my_list, 'my_sentence' : my_sentence, 'messages' : messages,
+          'now' : now, 'empty_list' : empty_list
+      })
+  ```
+
+  
+
+### 1. [반복문](https://docs.djangoproject.com/en/1.7/ref/templates/builtins/#for), [빈 리스트 반복문](https://docs.djangoproject.com/en/1.7/ref/templates/builtins/#for-empty)
+
+```django
+<p>1. 반복문</p>
+{% for menu in my_list %}
+    {{ forloop.counter }}
+    {% if forloop.first %}
+        <p>어머님은 짜장면이 싫다고하셨어~</p>
+    {% else %}
+        <p>{{ menu }}</p>
+    {% endif %}
+{% endfor %}
+<hr>
+<!-- 빈 리스트가 들어올 때!!!!-->
+{% for user in empty_list %}
+    <p>{{ user }}</p>
+    {% empty %}
+        <p>지금 가입된 유저가 없습니다.</p>
+{% endfor %}
+```
+
+out : 
+
+\1. 반복문
+
+1
+
+어머님은 짜장면이 싫다고하셨어~
+
+2
+
+짬뽕
+
+3
+
+탕수육
+
+4
+
+양장피
+
+------
+
+지금 가입된 유저가 없습니다.
+
+------
+
+
+
+- forloop 문법
+
+| **Variable**            | **Description**                          |
+| ----------------------- | ---------------------------------------- |
+| **forloop.counter**     | 루프의 현재 반복 (1- 색인)               |
+| **forloop.counter0**    | 루프의 현재 반복 (0- 색인)               |
+| **forloop.revcounter**  | 루프 끝에서의 반복 횟수 (1- 색인)        |
+| **forloop.revcounter0** | 루프 끝에서 반복 횟수 (0- 색인)          |
+| **forloop.first**       | 첫번째                                   |
+| **forloop.last**        | 마지막                                   |
+| **forloop.parentloop**  | 중첩 루프의 경우 현재 루프를 둘러싼 루프 |
+
+
+
+### 2. 조건문
+
+```django
+<p>2. 조건문</p>
+{% if '짜장면' in my_list %}
+    <p>짜장면은 고추가루!</p>
+{% endif %}
+{% if '치킨' in my_list %}
+    <p>치킨이 있다면 나오겠지?</p>
+{% endif %}
+```
+
+out :
+
+\2. 조건문
+
+짜장면은 고추가루!
+
+
+
+### 3. filter
+
+```django
+<p>3. length filter 활용</p>
+{% for message in messages %}
+    {% if message|length > 5 %}
+        <p>글씨가 너무 길어요</p>
+    {% else %}
+        <p> {{ message }}, {{ message|length }}</p>
+    {% endif %}
+{% endfor %}
+```
+
+out : 
+
+\3. length filter 활용
+
+apple, 5
+
+글씨가 너무 길어요
+
+글씨가 너무 길어요
+
+mango, 5
+
+
+
+### 4. lorem
+
+```django
+<p>4. lorem ipsum : %를 주의하자!</p>
+<!-- lorem 함수 -->
+{% lorem %}
+<hr>
+<!-- lorem 3단어 -->
+{% lorem 3 w %}
+<hr>
+<!-- lorem 4단어 랜덤. 계속 바뀐다. -->
+{% lorem 4 w random %}
+<hr>
+<!-- lorem 2 문단. html 구조에서도 문단구조이다. -->
+{% lorem 2 p %}
+<hr>
+```
+
+out :
+
+\4. lorem ipsum : %를 주의하자!
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+------
+
+lorem ipsum dolor
+
+------
+
+quam veritatis consequuntur deserunt
+
+------
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Repellat ab numquam repudiandae velit vero voluptas veniam itaque voluptatem, nostrum voluptate est voluptatum quasi vero quibusdam ducimus ex quod, quas sapiente voluptatum fuga possimus necessitatibus praesentium mollitia, aliquid delectus sunt eius facilis inventore culpa. Adipisci sapiente eaque ad alias asperiores molestiae et obcaecati quaerat aspernatur, doloribus officiis modi inventore iste eum assumenda nemo atque quasi voluptate eius, cum nemo quae amet quidem id sint laboriosam et, delectus nihil doloribus facilis velit iusto esse, reiciendis dicta officia iste laudantium rerum sunt?
+
+
+
+### 5. 글자수제한(truncate)
+
+```django
+<p>5. 글자수 제한(truncate)</p>
+<p>{{ my_sentence|truncatewords:3 }}</p>
+<p>truncatechars:4는 ' ...'으로 공백 + ... 을 포함한다.</p>
+<p>{{ my_sentence|truncatechars:4 }}</p>
+<p>{{ my_sentence|truncatechars:10 }}</p>
+```
+
+out :
+
+\5. 글자수 제한(truncate)
+
+Life is short, ...
+
+truncatechars:4는 ' ...'으로 공백 + ... 을 포함한다.
+
+...
+
+Life i ...
+
+
+
+### 6. 글자 관련 필터
+
+```django
+<p>6. 글자 관련 필터</p>
+<!--길이출력-->
+<p>{{ 'abc'|length }}</p>
+<!--소문자 변환 -->
+<p>{{ 'ABC'|lower }}</p>
+<!-- 띄어쓰기 맨 앞 대문자 -->
+<p>{{ my_sentence|title }}</p>
+<!-- 문장의 맨 앞글자만 대문자-->
+<p>{{ 'abc def. hi'|capfirst }}</p>
+<!-- 문자열 or list 중 하나만 랜덤으로 리턴-->
+<!-- 딕셔너리는 key?에러가 난다 -->
+<p>{{ 'abcadsf'|random }}</p>
+<p>{{ my_list|random }}</p>
+```
+
+out : 
+
+\6. 글자 관련 필터
+
+3
+
+abc
+
+### Life Is Short, You Need Python!
+
+Abc def. hi
+
+a
+
+짬뽕
+
+
+
+
+
+### 7. 연산
+
+```django
+<p>7. 연산</p>
+<p>{{ 4|add:6 }}</p>
+```
+
+out :
+
+\7. 연산
+
+10
+
+
+
+- [django-mathfilters](https://pypi.org/project/django-mathfilters/) 라는 외부 라이브러리를 설치해야 덧셈 외의 다른 값을 사용 가능하다.
+- [github](https://github.com/dbrgn/django-mathfilters) mathfilters 사용
+
+
+
+### 8. [날짜표현](https://docs.djangoproject.com/en/1.7/ref/templates/builtins/#date)
+
+```django
+<p>8. 날짜표현</p>
+{{ now }} <br>
+{% now "SHORT_DATETIME_FORMAT" %} <br>
+{% now "DATETIME_FORMAT" %} <br>
+{% now "SHORT_DATE_FORMAT" %} <br>
+{% now "DATE_FORMAT" %} <br>
+{% now "Y년 m월 d일 (l) h:i"%}<br>
+<!-- 아래는 주석. D로 쓰면 원래 요일을 Monday를 M으로 표현. but 한글은 안줄어든다..-->
+<!--{% now "Y년 m월 d일 (D) h:i"%}-->
+```
+
+out :
+
+\8. 날짜표현
+
+2019년 2월 12일 11:24 오전 
+
+2019-2-12 11:24 
+
+2019년 2월 12일 11:24 오전 
+
+2019-2-12. 
+
+2019년 2월 12일 
+
+2019년 02월 12일 (화요일) 11:24
+
+
+
+- 우리가 지역 및 시간설정을 했기 때문에 년 월 일 순서로 나오는것.
+- 장고에서는 now를 기본적으로 현재 시간으로 사용할 수 있다.
+- 그러나 나중에 다른 시간을 사용하려면 views.py에서 datetime.datetime.now로 불러 사용해야한다.
+
+
+
+### 9. urlize
+
+```django
+<p>9. urlize</p>
+<p>자동으로 앞에 http://를 붙여준다.</p>
+{{ 'google.com'|urlize }}
+```
+
+out :
+
+\9. urlize
+
+자동으로 앞에 http://를 붙여준다.
+
+google.com
+
+
+
+
 
 
 

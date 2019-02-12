@@ -1,4 +1,5 @@
 import random
+import datetime
 from django.shortcuts import render, HttpResponse
 secret_key="1q2w3e4r"
 
@@ -44,3 +45,15 @@ def user_read(request):
     user_id = request.POST.get("user_id")
     user_password = request.POST.get("user_password")
     return render(request, 'user_read.html', {'user_id' : user_id, 'user_password' : user_password})
+    
+def template_example(request):
+    my_dict = {'name' : 'han', 'nickname' : 'sweetrain', 'age' : 24}
+    my_list = ['짜장면', '짬뽕', '탕수육', '양장피', '초밥']
+    my_sentence = 'Life is short, you need python!'
+    messages = ['apple', 'banana', 'cucumber', 'mango']
+    now = datetime.datetime.now()
+    empty_list = []
+    return render(request, 'template_example.html', {'my_dict' : my_dict, 
+        'my_list' : my_list, 'my_sentence' : my_sentence, 'messages' : messages,
+        'now' : now, 'empty_list' : empty_list
+    })
