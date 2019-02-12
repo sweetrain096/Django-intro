@@ -8,7 +8,7 @@ def index(request):
     print(request)
     print(type(request))
     print(request.META)
-    return render(request, "index.html")
+    return render(request, 'home/index.html')
     
 def dinner(request):
     box = ["치킨", "충만치킨", "엽떡", "초밥"]
@@ -24,27 +24,27 @@ def dinner(request):
     # Django Template Language
 
 def you(request, name):
-    return render(request, 'you.html', {'name' : name})
+    return render(request, 'home/you.html', {'name' : name})
 
 def cube(request, num):
     # num = int(num)
-    return render(request, 'cube.html', {'num' : num, 'cube' : num ** 3})
+    return render(request, 'home/cube.html', {'num' : num, 'cube' : num ** 3})
     
 def ping(request):
-    return render(request, 'ping.html')
+    return render(request, 'home/ping.html')
     
 def pong(request):
     print(request.GET)
     msg = request.GET.get('message')
-    return render(request, 'pong.html', {'msg' : msg})
+    return render(request, 'home/pong.html', {'msg' : msg})
     
 def user_new(request):
-    return render(request, 'user_new.html')
+    return render(request, 'home/user_new.html')
     
 def user_read(request):
     user_id = request.POST.get("user_id")
     user_password = request.POST.get("user_password")
-    return render(request, 'user_read.html', {'user_id' : user_id, 'user_password' : user_password})
+    return render(request, 'home/user_read.html', {'user_id' : user_id, 'user_password' : user_password})
     
 def template_example(request):
     my_dict = {'name' : 'han', 'nickname' : 'sweetrain', 'age' : 24}
@@ -53,10 +53,10 @@ def template_example(request):
     messages = ['apple', 'banana', 'cucumber', 'mango']
     datetimenow = datetime.datetime.now()
     empty_list = []
-    return render(request, 'template_example.html', {'my_dict' : my_dict, 
+    return render(request, 'home/template_example.html', {'my_dict' : my_dict, 
         'my_list' : my_list, 'my_sentence' : my_sentence, 'messages' : messages,
         'datetimenow' : datetimenow, 'empty_list' : empty_list
     })
     
 def static_example(request):
-    return render(request, 'static_example.html')
+    return render(request, 'home/static_example.html')
