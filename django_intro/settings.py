@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'utilities',
 
 ]
 # 하나하나의 앱들, 외부 라이브러리 추가.
