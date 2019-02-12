@@ -69,6 +69,7 @@
 {% now "DATE_FORMAT" %} <br>
 {% now "Y년 m월 d일 (l) h:i"%}<br>
 <hr>
+{{ datetimenow|date:"SHORT_DATETIME_FORMAT" }}
 <p>9. urlize</p>
 <p>자동으로 앞에 http://를 붙여준다.</p>
 {{ 'google.com'|urlize }}

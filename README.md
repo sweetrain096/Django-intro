@@ -447,11 +447,11 @@ out :
       my_list = ['짜장면', '짬뽕', '탕수육', '양장피', '초밥']
       my_sentence = 'Life is short, you need python!'
       messages = ['apple', 'banana', 'cucumber', 'mango']
-      now = datetime.datetime.now()
+      datetimenow = datetime.datetime.now()
       empty_list = []
       return render(request, 'template_example.html', {'my_dict' : my_dict, 
           'my_list' : my_list, 'my_sentence' : my_sentence, 'messages' : messages,
-          'now' : now, 'empty_list' : empty_list
+          'datetimenow' : datetimenow, 'empty_list' : empty_list
       })
   ```
 
@@ -701,6 +701,9 @@ out :
 {% now "Y년 m월 d일 (l) h:i"%}<br>
 <!-- 아래는 주석. D로 쓰면 원래 요일을 Monday를 M으로 표현. but 한글은 안줄어든다..-->
 <!--{% now "Y년 m월 d일 (D) h:i"%}-->
+<!--datetimenow로 해서 date로 type을 지정해줘야지만 사용할 수 있다!-->
+{{ datetimenow|date:"SHORT_DATETIME_FORMAT" }}
+
 ```
 
 out :
@@ -718,6 +721,8 @@ out :
 2019년 2월 12일 
 
 2019년 02월 12일 (화요일) 11:24
+
+2019-2-12 12:04
 
 
 
@@ -742,6 +747,80 @@ out :
 자동으로 앞에 http://를 붙여준다.
 
 google.com
+
+
+
+## 8. static
+
+static에 들어갈 내용을 `home(app 이름)/static/구분폴더/file`로 넣어준다.
+
+static이라는 폴더를 만드는게 핵심
+
+```
+├── home
+│   ├── static
+│   │   ├── imgs
+│   │   │   └── 1.jpg
+│   │   └── stylesheets
+│   │       └── style.css
+```
+
+
+
+- home/static/style.css
+
+  ```css
+  body {
+      color:pink;
+  }
+  ```
+
+- home/templates/base.html
+
+  ```django
+  <!DOCTYPE html>
+  <html lang="ko">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>{% block title %}{% endblock %}</title>
+      {% block css %}{% endblock %}
+  </head>
+  <body>
+      <h1> Django 실습</h1>
+      <hr>
+      {% block body %}
+      {% endblock %}
+  </body>
+  </html>
+  ```
+
+  
+
+- home/templates/static_example.html
+
+  ```django
+  {% extends 'base.html' %}
+  {% load static %}
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" type="text/css" />
+  {% endblock %}
+  
+  {% block body %}
+      {% load static %}
+      <img src="{% static 'imgs/1.jpg' %}">
+  
+  {% endblock %}
+  ```
+
+
+
+out :
+
+![1549948365614](img/1549948365614.png)
+
+
 
 
 
