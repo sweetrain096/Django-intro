@@ -65,6 +65,8 @@ ROOT_URLCONF = 'django_intro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'DIRS': [os.path.join(BASE_DIR, 프로젝트 이름 바로 아래 폴더
+        #                                 (만약 이름이 없다면 프로젝트 폴더 가장 상단에 존재한다., 'templates')],
         'DIRS': [os.path.join(BASE_DIR, 'django_intro', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -1,5 +1,7 @@
 # [Django](https://docs.djangoproject.com/ko/2.1/intro/tutorial01/)
 
+## 시작을 하면 9번부터 읽으세요.... 정신건강에 좋습니다....
+
 - [djano template language](https://docs.djangoproject.com/en/1.7/topics/templates/)
 
 ## 0. 구조 확인하기
@@ -154,6 +156,7 @@ pip install django
    # Create your views here.
    def index(request):
        return HttpResponse("hello, django!")
+   
    ```
 
    - 주의할 점은 선언된 함수에서 `request`를 인자로 받아야 한다.
@@ -174,6 +177,7 @@ pip install django
    ]
    # 하나하나의 앱들, 외부 라이브러리 추가.
    # 맨 마지막에 붙어도 ','를 붙이기(트레일링)
+   
    ```
 
    
@@ -188,6 +192,7 @@ def index(request):
     print(type(request))
     print(request.META)
     return HttpResponse("hello, django!")
+
 ```
 
 print(request)
@@ -233,6 +238,7 @@ out :
    ```python
    # urls.py
    path('home/dinner/', views.dinner),
+   
    ```
 
 2. view 설정
@@ -243,6 +249,7 @@ out :
        box = ['치킨', '밥', '피자']
        pick = random.choice(box)
        return render(request, 'dinner.html', {'dinner' : pick})
+   
    ```
 
    - Template을 리턴하려면,  `render`를 사용하여야 한다.
@@ -255,11 +262,13 @@ out :
    ```bash
    $ mkdir home/templates
    $ touch home/templates/dinner.html
+   
    ```
 
    ```html
    <!-- home/templates/dinner.html -->
    <h1> {{dinner}} </h1>
+   
    ```
 
 4. base 설정
@@ -280,6 +289,7 @@ out :
        {% endblock %}
    </body>
    </html>
+   
    ```
 
    
@@ -291,6 +301,7 @@ out :
    ```python
    path('home/you/<name>', views.you),
    path('hone/cube/<int:num>', views, cube),
+   
    ```
 
 2. view 파일 설정
@@ -298,12 +309,14 @@ out :
    ```python
    def you(request, name):
        return render(request, 'you.html', {'name' : name})
+   
    ```
 
 3. template 설정
 
    ```django
    <h1> {{ name }}, 안녕!! </h1>
+   
    ```
 
 
@@ -316,6 +329,7 @@ out :
 
       ```python
       path('home/ping/', views.ping)
+      
       ```
 
    2. view 설정
@@ -323,6 +337,7 @@ out :
       ```python
       def ping(request):
           return render(request, 'ping.html')
+      
       ```
 
    3. template 설정
@@ -332,6 +347,7 @@ out :
           <inupt name="message" tyep="text">
           <inupt type="submit">
       </form>
+      
       ```
 
 2. `pong`
@@ -340,6 +356,7 @@ out :
 
       ```python
       path('home/pong/', views.pong)
+      
       ```
 
    2. view 설정
@@ -348,12 +365,14 @@ out :
       def pong(request):
           msg = request.GET.get("message")
           return render(request, 'pong.html', {'msg' : msg})
+      
       ```
 
    3. template 설정
 
       ```django
       <h1>{{ msg }}</h1>
+      
       ```
 
 3. POST 요청 처리
@@ -364,6 +383,7 @@ out :
       <form action="/home/pong/" method="POST">
           {% csrf_token %}
       </form>
+      
       ```
 
    2. view 수정
@@ -371,6 +391,7 @@ out :
       ```python
       def pong(request):
           msg = request.POST.get("message")
+      
       ```
 
    - `csrf_token`은 보안을 위해 django에서 기본적으로 설정해 놓은 보안 장치(?) 이다.
@@ -397,6 +418,7 @@ out :
        path('info/', views.info),
        path('student/<student>', views.student),
    ]
+   
    ```
 
 2. view 설정
@@ -416,6 +438,7 @@ out :
        # 아래가 중요!!!!!!!!!!!!
        student1 = {'name' : 'rain', 'age' : 24, 'nickname' : 'sweetrain'}
        return render(request, 'student.html', {'student' : student, 'age' : age,'student1' : student1})
+   
    ```
 
 3. template 설정
@@ -431,6 +454,7 @@ out :
    <h4>{{ student1.name }}</h4>
    <h4>{{ student1.age }}</h4>
    <h4>{{ student1.nickname }}</h4>
+   
    ```
 
    ![1549932296403](img/1549932296403.png)
@@ -453,6 +477,7 @@ out :
           'my_list' : my_list, 'my_sentence' : my_sentence, 'messages' : messages,
           'datetimenow' : datetimenow, 'empty_list' : empty_list
       })
+  
   ```
 
   
@@ -476,6 +501,7 @@ out :
     {% empty %}
         <p>지금 가입된 유저가 없습니다.</p>
 {% endfor %}
+
 ```
 
 out : 
@@ -530,6 +556,7 @@ out :
 {% if '치킨' in my_list %}
     <p>치킨이 있다면 나오겠지?</p>
 {% endif %}
+
 ```
 
 out :
@@ -551,6 +578,7 @@ out :
         <p> {{ message }}, {{ message|length }}</p>
     {% endif %}
 {% endfor %}
+
 ```
 
 out : 
@@ -583,6 +611,7 @@ mango, 5
 <!-- lorem 2 문단. html 구조에서도 문단구조이다. -->
 {% lorem 2 p %}
 <hr>
+
 ```
 
 out :
@@ -615,6 +644,7 @@ Repellat ab numquam repudiandae velit vero voluptas veniam itaque voluptatem, no
 <p>truncatechars:4는 ' ...'으로 공백 + ... 을 포함한다.</p>
 <p>{{ my_sentence|truncatechars:4 }}</p>
 <p>{{ my_sentence|truncatechars:10 }}</p>
+
 ```
 
 out :
@@ -647,6 +677,7 @@ Life i ...
 <!-- 딕셔너리는 key?에러가 난다 -->
 <p>{{ 'abcadsf'|random }}</p>
 <p>{{ my_list|random }}</p>
+
 ```
 
 out : 
@@ -674,6 +705,7 @@ a
 ```django
 <p>7. 연산</p>
 <p>{{ 4|add:6 }}</p>
+
 ```
 
 out :
@@ -703,6 +735,7 @@ out :
 <!--{% now "Y년 m월 d일 (D) h:i"%}-->
 <!--datetimenow로 해서 date로 type을 지정해줘야지만 사용할 수 있다!-->
 {{ datetimenow|date:"SHORT_DATETIME_FORMAT" }}
+
 
 ```
 
@@ -738,6 +771,7 @@ out :
 <p>9. urlize</p>
 <p>자동으로 앞에 http://를 붙여준다.</p>
 {{ 'google.com'|urlize }}
+
 ```
 
 out :
@@ -750,11 +784,17 @@ google.com
 
 
 
-## 8. static
+## 8. static file 관리
 
-static에 들어갈 내용을 `home(app 이름)/static/구분폴더/file`로 넣어준다.
+> 정적 파일(image, css, js)을 서버 저장이 되어 있을 때, 이를 각각의 템플릿에 불러오는 방법.
 
-static이라는 폴더를 만드는게 핵심
+
+
+### 디렉토리 구조
+
+static에 들어갈 내용을 `home(app 이름)/static/구분폴더(img, stylesheet 등)/file`로 넣어준다.
+
+`/static/`이라는 폴더를 만드는게 핵심 (기본이 `/static`)
 
 ```
 ├── home
@@ -763,62 +803,308 @@ static이라는 폴더를 만드는게 핵심
 │   │   │   └── 1.jpg
 │   │   └── stylesheets
 │   │       └── style.css
+
 ```
 
 
 
-- home/static/style.css
+1. 파일 생성
 
-  ```css
-  body {
-      color:pink;
-  }
-  ```
+   - home/static/style.css
 
-- home/templates/base.html
+     ```css
+       body {
+           color:pink;
+       }
+     
+     ```
 
-  ```django
-  <!DOCTYPE html>
-  <html lang="ko">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>{% block title %}{% endblock %}</title>
-      {% block css %}{% endblock %}
-  </head>
-  <body>
-      <h1> Django 실습</h1>
-      <hr>
-      {% block body %}
-      {% endblock %}
-  </body>
-  </html>
-  ```
+   - home/templates/base.html
 
-  
+     ```django
+     <!DOCTYPE html>
+     <html lang="ko">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+         <title>{% block title %}{% endblock %}</title>
+         {% block css %}{% endblock %}
+     </head>
+     <body>
+         <h1> Django 실습</h1>
+         <hr>
+         {% block body %}
+         {% endblock %}
+     </body>
+     </html>
+     
+     ```
 
-- home/templates/static_example.html
+2. 템플릿 활용
 
-  ```django
-  {% extends 'base.html' %}
-  {% load static %}
-  {% block css %}
-  <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" type="text/css" />
-  {% endblock %}
-  
-  {% block body %}
-      {% load static %}
-      <img src="{% static 'imgs/1.jpg' %}">
-  
-  {% endblock %}
-  ```
+   - home/templates/static_example.html
+
+     ```django
+     {% extends 'base.html' %}
+        {% load static %}
+        {% block css %}
+        <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" type="text/css" />
+        {% endblock %}
+        
+        {% block body %}
+            {% load static %}
+            <img src="{% static 'home/imgs/1.jpg' %}">
+        
+     {% endblock %}
+     
+     ```
 
 
 
 out :
 
 ![1549948365614](img/1549948365614.png)
+
+- static 폴더를 사용할 수 있는 이유?
+
+  settings.py
+
+  ```python
+  # 맨 아래쪽
+  
+  # Static files (CSS, JavaScript, Images)
+  # https://docs.djangoproject.com/en/2.1/howto/static-files/
+  
+  STATIC_URL = '/static/'
+  
+  
+  ```
+
+
+
+## 9. URL 설정 분리. (app 여러개 쓰기)
+
+> 위와 같이 코드를 짜는 경우에, `django_ntro/urls.py`에 모든 url 정보가 담기게 된다.
+>
+> 일반적으로 Django 어플리케이션에서 url을 설정하는 방법은 app별로 `urls.py`를 구성하는 것.
+
+> templates, static
+>
+> file 이름을 서로 다른 app에서 동일하게 사용하게되면 settings.py에서 먼저 나오는 app의 file을 읽어서 내보낸다. 때문에 이름을 다르게 사용하거나, app별로 app 이름으로 폴더를 생성하여 사용한다.
+
+
+
+1. 새 app 만들기
+
+   ```bash
+   $ python manage.py startapp utilities
+   
+   ```
+
+2. django_intro/settings.py
+
+   ```python
+   INSTALLED_APPS = [
+       'django.contrib.admin',
+       'django.contrib.auth',
+       'django.contrib.contenttypes',
+       'django.contrib.sessions',
+       'django.contrib.messages',
+       'django.contrib.staticfiles',
+       'home',
+       'utilities',
+   ]
+   ```
+
+3. django_intro/urls.py
+
+   ```python
+   # include 추가
+   from django.urls import path, include
+   ```
+
+   home/ 이 붙어있는 모든 내용을 복사하여 아래 home/urls.py에 넣은 후,
+
+   ```python
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       # 요청이 home/으로 오면, home/urls.py의 설정들에 맞춰 뷰로 보내준다.
+       path('home/', include('home.urls')),
+   ]
+   ```
+
+   urlpatterns을 수정한다.
+
+   - `include`를 통해 `app/urls.py` 에 설정된 url을 포함.
+
+   
+
+4. home/urls.py 생성(내가 직접 만들어야한다!!)
+
+   ctrl + f 를 눌러 home/을 없앤다.
+
+   ```python
+   from django.urls import path, include
+   # . 폴더 (현재 디렉토리) 내에 있는 views.py를 불러온다.
+   from . import views
+   
+   urlpatterns = [
+       path('', views.index),
+       path('dinner/', views.dinner),
+       path('you/<name>/', views.you),
+       path('cube/<int:num>/', views.cube),
+       path('ping/', views.ping),
+       path('pong/', views.pong),
+       path('user_new/', views.user_new),
+       path('user_read/', views.user_read),
+       path('template_example/', views.template_example),
+       path('static_example/', views.static_example)
+   ]
+   ```
+
+   - `home/views.py` 파일에서 `index`를 호출하는 url은 `http://<host>/` 가 아니라, `http://<host>/home/`이다.
+
+   
+
+5. django_intro/urls.py
+
+   ```python
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       # 요청이 home/으로 오면, home/urls.py의 설정들에 맞춰 뷰로 보내준다.
+       path('home/', include('home.urls')),
+       # 새 app 추가.
+       path('utilities/', include('utilities.urls')),
+   ]
+   ```
+
+
+
+
+
+## 10 Templates, static 폴더 설정
+
+### 디렉토리 구조
+
+디렉토리 구조는 `home/templates/home/`으로 구정된다.
+
+
+
+1. settings.py의 templates 부분을 수정한다.
+
+   ```python
+   TEMPLATES = [
+       {
+           'BACKEND': 'django.template.backends.django.DjangoTemplates',
+           # 아래 부분을 수정한다.
+           # 'DIRS': [os.path.join(BASE_DIR, 프로젝트 이름 바로 아래 폴더
+           #                                 (만약 이름이 없다면 프로젝트 폴더 
+           # 								가장 상단에 존재한다., 'templates')],
+   
+           'DIRS': [os.path.join(BASE_DIR, 'django_intro', 'templates')],
+           'APP_DIRS': True,
+           'OPTIONS': {
+               'context_processors': [
+                   'django.template.context_processors.debug',
+                   'django.template.context_processors.request',
+                   'django.contrib.auth.context_processors.auth',
+                   'django.contrib.messages.context_processors.messages',
+               ],
+           },
+       },
+   ]
+   ```
+
+   - `DIRS` : templates를 커스텀하여 경로를 설정할 수 있다.
+
+     - 경로 설정
+
+       ```python
+       'DIRS': [os.path.join(BASE_DIR, 'django_intro', 'templates')],
+       # =>/workspace/Django_intro/django_intro/templates/
+       ```
+
+   - `APP_DIRS` : `INSTALLED_APPS`에 설정된 APP의 디렉토리에 있는 `templates`를 템플릿으로 활용한다.(True)
+
+2. `home/templates/home/내용`, `home/static/home/내용` 으로 폴더를 만들어준다.
+
+   ```
+   ├── home
+   │   ├── static
+   │   │   └── home
+   │   │       ├── imgs
+   │   │       │   └── 1.jpg
+   │   │       └── stylesheets
+   │   │           └── style.css
+   │   ├── templates
+   │   │   └── home
+   │   │       ├── base.html
+   │   │       ├── cube.html
+   │   │       ├── dinner.html
+   │   │       ├── index.html
+   │   │       ├── ping.html
+   │   │       ├── pong.html
+   │   │       ├── static_example.html
+   │   │       ├── template_example.html
+   │   │       ├── user_new.html
+   │   │       ├── user_read.html
+   │   │       └── you.html
+   ```
+
+   static과 templates 폴더 안에 app 이름으로 폴더를 다시 만든 후 모든 내용을 집어넣는다.
+
+   - 이렇게 하는 이유???
+
+     - django는 templates와 static을 각각 모아서 확인을 하게된다. 
+
+     - templates들의 모임에서 각각의 app의 것인지를 확인하기 위해서는 폴더명으로 한번 더 감싸서 app들의 MTV인지를 확인시켜 주는 것이다.
+
+       
+
+3. 이후, base.html을 사용하고 있는 모든 html 에 에러가 날 것. 
+
+   - `django_intro`(settings.py와 ulrs.py가 존재하는 폴더) 안에 `templates` 폴더를 만들어준다.
+
+   - `home/templates/home/base.html`을 `django_intro/`아래로 이동시킨다.
+
+     ```
+     ├── django_intro
+     │   ├── templates
+     │   │   └── base.html
+     │   ├── settings.py
+     │   ├── urls.py
+     │   └── wsgi.py
+     ├── home
+     └── utilities`django_intro/settings.py`
+     ```
+
+4. 
+
+
+
+
+
+
+
+
+
+
+
+   utilities/urls.py(직접 생성)
+
+
+
+
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index),  #/utilities/    
+]
+```
 
 
 
